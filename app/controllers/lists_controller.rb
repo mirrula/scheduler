@@ -1,5 +1,6 @@
 class ListsController < ApplicationController
     before_action :set_list, only: [:edit, :update, :destroy]
+    
 def index
     @lists = List.all
 end
@@ -24,6 +25,15 @@ end
 
 def edit
     @list = List.find(params[:id])
+end
+
+def update
+    @list = List.find(params[:id])
+    if @list.update(list_params)
+        redirect_to @list
+    else
+        render :edit
+    end
 end
 
 def destroy
