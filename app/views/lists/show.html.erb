@@ -1,5 +1,18 @@
-<h1><%= @list.title %></h1>
+<article class="list">
 
-<%= link_to 'Изменить', edit_list_path(@list) %>
-|
-<%= link_to 'Удалить', list_path(@list), method: :delete, data: { confirm: 'Удалить список?' } %>
+    <section class="list-head">
+        <h1><%= @list.title %></h1>
+        <small>
+            <time><%= @list.created_at.to_date.strftime("%d %B, %Y") %></time>
+            |
+            <%= link_to 'Изменить', edit_list_path(@list) %>
+            |
+            <%= link_to 'Удалить', list_path(@list), method: :delete, data: { confirm: 'Удалить список?' } %>
+        </small>
+    </section>
+
+    <section class="list-body">
+    </section>
+
+</article>
+
