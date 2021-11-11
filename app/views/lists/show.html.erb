@@ -12,10 +12,11 @@
     </section>
 
     <section class="list-body" id="tasks-section">
-        <ol>
-            <%= render @tasks %>
-        </ol>
-
+        <%= @list.tasks.each do |task| %>
+        <li>
+            <%= link_to task.title, task_path(task), class: "nav-link #{}" %>
+        </li>
+        <% end %>
     </section>
 
 </article>

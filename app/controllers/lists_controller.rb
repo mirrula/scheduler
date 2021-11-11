@@ -3,7 +3,6 @@ class ListsController < ApplicationController
 
 def index
     @lists = List.all
-    @tasks = List.tasks
 end
 
 def show
