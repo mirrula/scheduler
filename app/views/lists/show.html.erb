@@ -1,23 +1,13 @@
-<article class="list">
-
-    <section class="list-head">
-        <h1><%= @list.title %></h1>
-        <small>
-            <time><%= @list.created_at.to_date.strftime("%d %B, %Y") %></time>
-            |
-            <%= link_to 'Изменить', edit_list_path(@list) %>
-            |
-            <%= link_to 'Удалить', list_path(@list), method: :delete, data: { confirm: 'Удалить список?' } %>
-        </small>
-    </section>
-
-    <section class="list-body" id="tasks-section">
-        <%= @list.tasks.each do |task| %>
-        <li>
-            <%= link_to task.title, task_path(task), class: "nav-link #{}" %>
-        </li>
-        <% end %>
-    </section>
-
-</article>
-
+<div class="image-setter" style="border-radius: 5px">
+    <img src="<%= @list.icon %>" class="card-img-top" alt="..."  onerror="this.onerror=null;this.src='/assets/error.jpg';">
+</div>
+<div class="space-between p-1" style="margin-top: 10px;">
+    <div style="display: flex; align-items: center">
+        <h1 style="margin: 0; margin-right: 10px"><%= @list.name %></h1>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTask">New task</button>
+    </div>
+    <h2><strong><%= @tasks.length %> tasks pending</strong></h2>
+</div>
+<hr>
+<%= render_tasks true %>
+<%= render partial: "tasks/modal" %>

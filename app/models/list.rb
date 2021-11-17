@@ -1,4 +1,6 @@
 class List < ApplicationRecord
-    has_many :tasks, dependent: :destroy
-    validates :title, presence:true
+  validates :name, presence: true, length: { in: 4..64 }
+
+  belongs_to :user
+  has_many :tasks
 end

@@ -1,51 +1,26 @@
 class ListsController < ApplicationController
-    before_action :set_list, only: [ :show, :edit, :update, :destroy ]
+  before_action :user_logged_in, only: %i[show index]
 
-def index
-    @lists = List.all
-end
+  def index
+    @user = current_user
+    @lists = current_user.lists.order(name: :asc)
+    @new_list = current_user.lists.build
+  end
 
-def show
-end
+  def create
+    current_user.lists.create!(list_params)
+    redirect_to app_path
+  end
 
-def new
-    @list = List.new
-end
+  def show
+    @list = list.find(params[:id])
+    @tasks = @list.tasks.where('status = false')
+    @new_task = current_user.tasks.build
+  end
 
-def create
-    @list = List.new(list_params)
-    if @list.save
-      redirect_to lists_path, success: 'Список успешно создан'
-    else
-      @lists = List.all.order(:title)
-      flash[:danger] = 'Список не создан'
-      render :new
-    end
-end
+  private
 
-def edit
-end
-
-def update
-    if @list.update(list_params)
-        redirect_to @list
-    else
-        render :edit
-    end
-end
-
-def destroy
-    @list.destroy
-    redirect_to lists_path, success: 'Список успешно удален'
-end
-
-private
-
-def set_list
-    @list = List.find(params[:id])
-end
-
-def list_params
-    params.require(:list).permit(:title)
-end
+  def list_params
+    params.require(:list).permit(:name, :icon)
+  end
 end

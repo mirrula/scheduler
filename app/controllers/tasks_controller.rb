@@ -1,53 +1,48 @@
 class TasksController < ApplicationController
-    before_action :set_list, only: [ :show, :edit, :update, :destroy ]
+  before_action :user_logged_in, only: %i[index create general done]
 
-def index
-    @tasks = Task.all
-    @@tasks = Task.all
-end
+  def index
+    @tasks = current_user.tasks
+    @new_task = current_user.tasks.build
+  end
 
-def show
-end
+  def general
+    @tasks = current_user.general_tasks
+    @new_task = current_user.tasks.build
+  end
 
-def new
-    @task = Task.new
-end
+  def done
+    @tasks = current_user.done_tasks
+    @new_task = current_user.tasks.build
+  end
 
-def create
-    @task = Task.new(task_params)
-    if @task.save
-      redirect_to tasks_path, success: 'Задача успешно создана'
+  def create
+    @tasks = Task.create(tasks_params)
+    if @tasks.errors.any?
+      flash[:error] = @tasks.errors.full_messages
     else
-      @tasks = Task.all.order(:title)
-      flash[:danger] = 'Задача не создана'
-      render :new
+      @tasks.save
     end
-end
-
-def edit
-end
-
-def update
-    if @task.update(task_params)
-        redirect_to @task
+    if params[:task][:list_id] == ''
+      redirect_to tasks_path
     else
-        render :edit
+      redirect_to list_path(params[:task][:list_id])
     end
-end
+  end
 
-def destroy
-    @task.destroy
-    redirect_to tasks_path, success: 'Список успешно удален'
-end
+  def toggle
+    task = Task.find(params[:id])
+    task.status = !task.status
+    task.save
+    redirect_to tasks_done_path
+  end
 
-private
+  private
 
-def set_task
-    @task = Task.find(params[:id])
-end
-
-def task_params
-    params.require(:task).permit(:body)
-end
-
+  def tasks_params
+    param = params.require(:task).permit(:name, :description, :expiring_date, :list_id)
+    param.delete(:list_id) if param[:list_id] == ''
+    param[:author_id] = current_user.id
+    param
+  end
 end

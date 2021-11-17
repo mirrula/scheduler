@@ -1,4 +1,7 @@
 class Task < ApplicationRecord
-    belongs_to :list
-    validates :body, presence:true
+  validates :name, presence: true, length: { in: 4..16 }
+  validates :description, presence: false, length: { in: 4..64 }
+
+  belongs_to :author, class_name: 'User'
+  belongs_to :list, optional: true
 end
