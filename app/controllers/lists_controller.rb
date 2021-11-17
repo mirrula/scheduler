@@ -13,7 +13,7 @@ class ListsController < ApplicationController
   end
 
   def show
-    @list = list.find(params[:id])
+    @list = List.find(params[:id])
     @tasks = @list.tasks.where('status = false')
     @new_task = current_user.tasks.build
   end
