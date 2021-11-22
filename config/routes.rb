@@ -3,6 +3,7 @@
 Rails.application.routes.draw do
     # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
     root 'users#new'
+    resources :events
     resources :users, only: %i[new create show destroy]
     resources :lists, only: %i[index create show]
     resources :tasks, only: %i[index create general toggle done]
@@ -13,4 +14,4 @@ Rails.application.routes.draw do
     get '/tasks/done' => 'tasks#done'
     patch '/tasks/:id/toggle' => 'tasks#toggle'
   end
-  
+

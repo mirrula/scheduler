@@ -12,6 +12,15 @@
 
 ActiveRecord::Schema.define(version: 2020_12_18_150844) do
 
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.datetime "start_time"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_events_on_user_id"
+  end
+
   create_table "lists", force: :cascade do |t|
     t.string "name"
     t.string "icon"
@@ -40,6 +49,7 @@ ActiveRecord::Schema.define(version: 2020_12_18_150844) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "events", "users"
   add_foreign_key "lists", "users"
   add_foreign_key "tasks", "lists"
   add_foreign_key "tasks", "users", column: "author_id"
