@@ -5,6 +5,9 @@
     <div style="display: flex; align-items: center">
         <h1 style="margin: 0; margin-right: 10px"><%= @list.name %></h1>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newTask">New task</button>
+        <div class="space-between p-2">
+            <%= link_to 'Delete', list_path(@list), method: :delete, data: { confirm: 'Are you shure?' }, class: 'btn btn-danger' %>
+        </div>
     </div>
     <h2><strong><%= @tasks.length %> tasks pending</strong></h2>
 </div>

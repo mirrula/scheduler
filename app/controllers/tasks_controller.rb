@@ -30,6 +30,12 @@ class TasksController < ApplicationController
     end
   end
 
+  def destroy
+    task = Task.find(params[:id])
+    task.destroy
+    redirect_to tasks_path, success: 'task has been deleted'
+  end
+
   def toggle
     task = Task.find(params[:id])
     task.status = !task.status

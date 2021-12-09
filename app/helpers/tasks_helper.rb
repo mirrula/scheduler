@@ -23,7 +23,8 @@ module TasksHelper
                                     <img src=\"#{task.list.nil? ? 'https://www.spaciousbreath.com/wp-content/uploads/2018/03/Giving-birth-to-Life-1080x608.jpg' : task.list.icon}\" height=\"50\" >
                                     </div>
                                 <div>
-                                <strong>#{task.name} - #{link_to(task.status ? 'Undone' : 'Done',
+                                <strong>#{task.name} - #{link_to 'Delete', task_path(id: task.id), method: :delete, data: { confirm: 'Are you shure?' } } 
+                                - #{link_to(task.status ? 'Undone' : 'Done',
                                                                  "/tasks/#{task.id}/toggle", method: :patch)}</strong><br>
                                 <strong class=\"gray\">#{task.description}</strong>
                                 </div>
